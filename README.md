@@ -65,9 +65,15 @@ pip install -r requirements.txt
 streamlit run web.py
 ```
 
+### Протестировать приложение в режиме реального времени вы можете по ссылке:
+
+http://82.117.87.235:8501/
+
 ### Пример работы нашего приложения вы можете увидеть на данном видео.
 
 
+
+https://github.com/user-attachments/assets/ac81e9d7-89ba-4fd8-9ed4-397383711148
 
 
 
