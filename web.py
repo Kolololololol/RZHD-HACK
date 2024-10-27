@@ -11,7 +11,7 @@ import cv2
 import numpy as np
 from structures import TrainPath, Camera
 import time
-from db import clear_events_table, get_data_query_result
+from db import clear_events_table, get_data_query_result,recreate_events_table
 
 
 CONFIG_CAMERA_POLYGONS_PATH = r".\configs\camera_polygons_config"
@@ -208,6 +208,7 @@ if select_action =="Видео аналитика с камер":
     start_button = st.button("Запуск камеры", icon="🚀")
     if start_button:
         st.subheader("***Вывод результата:***")
+        recreate_events_table()
         clear_events_table()
         stframe = st.empty()
         title = st.empty()

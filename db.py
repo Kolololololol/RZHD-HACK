@@ -1,5 +1,9 @@
 import psycopg2
 import pandas as pd
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 DB_CONNECTION = None
 DB_CURSOR = None
@@ -7,7 +11,7 @@ DB_CURSOR = None
 DATABASE_KWARGS = {
     "dbname": "postgres",
     "user": "postgres",
-    "password": "",
+    "password":os.getenv("password"),
     "host": "localhost",
     "port": "5432",  # Обычно 5432 - стандартный порт для PostgreSQL
 }
@@ -37,7 +41,7 @@ def add_event(camera_name, track_name, object_name, event_type, event_time, coef
     except Exception as e:
         print("Ошибка при добавлении записи:", e)
         raise e
-
+    
     finally:
         # Закрываем курсор и соединение
         cursor.close()
@@ -89,3 +93,48 @@ def get_data_query_result(query : str):
         # Закрываем курсор и соединение
         cursor.close()
         conn.close()        
+
+def recreate_events_table():
+    """
+    Функция удаляет таблицу events, если она существует, и создаёт её заново в базе данных PostgreSQL.
+
+    Параметры:
+    - db_name: Имя базы данных
+    - user: Имя пользователя
+    - password: Пароль пользователя
+    - host: Хост базы данных
+    - port: Порт базы данных
+    """
+    try:
+        # Подключаемся к базе данных
+        connection = psycopg2.connect(**DATABASE_KWARGS)
+        cursor = connection.cursor()
+
+        # Удаляем таблицу events, если она существует
+        drop_table_query = "DROP TABLE IF EXISTS events;"
+        cursor.execute(drop_table_query)
+
+        # Создаём таблицу events заново
+        create_table_query = """
+        CREATE TABLE events (
+            event_id SERIAL PRIMARY KEY,
+            camera_name VARCHAR(255),
+            track_name VARCHAR(255),
+            object_name VARCHAR(255),
+            event_type VARCHAR(255),
+            event_time TIMESTAMP,
+            coefficient FLOAT
+        );
+        """
+        cursor.execute(create_table_query)
+        connection.commit()
+        print("Таблица events успешно удалена и создана заново.")
+
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(f"Ошибка при обновлении таблицы: {error}")
+
+    finally:
+        # Закрываем соединение
+        if connection:
+            cursor.close()
+            connection.close()
