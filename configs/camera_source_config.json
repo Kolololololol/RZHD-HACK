@@ -1,0 +1,10 @@
+{
+    "camera_01" : {
+        "source" : "./rzhd2_dataset/camera1.mp4",
+        "polygons_file_name" : "camera_1_path_config.json"
+    },
+    "camera_02" : {
+        "source" : "./rzhd2_dataset/camera2.mp4",
+        "polygons_file_name" : "camera_2_path_config.json"
+    }
+}
