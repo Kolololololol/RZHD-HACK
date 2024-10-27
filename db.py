@@ -7,7 +7,7 @@ DB_CURSOR = None
 DATABASE_KWARGS = {
     "dbname": "postgres",
     "user": "postgres",
-    "password": "kainzor1337",
+    "password": "",
     "host": "localhost",
     "port": "5432",  # Обычно 5432 - стандартный порт для PostgreSQL
 }
